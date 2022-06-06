@@ -22,13 +22,12 @@ public class ArrayStorage {
         if (r == null) {
             return;
         }
-
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                storage[i] = r;
-                size++;
-                return;
-            }
+        int index = findIndex(r.uuid);
+        if (index == -1) {
+            storage[size] = r;
+            size++;
+        } else {
+            System.out.println("Резюме с таким uuid уже есть в базе");
         }
     }
 
@@ -47,7 +46,6 @@ public class ArrayStorage {
             System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
             storage[size - 1] = null;
             size--;
-            removeDuplicates();
         }
     }
 
@@ -61,24 +59,11 @@ public class ArrayStorage {
         return -1;
     }
 
-    private void removeDuplicates() {
-        for (int j = 0; j < size; j++) {
-            for (int k = j + 1; k < size - 1; k++) {
-                if (storage[j] == null) {
-                    continue;
-                }
-                if (storage[j].equals(storage[k])) {
-                    storage[k] = null;
-                }
-            }
-        }
-    }
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
