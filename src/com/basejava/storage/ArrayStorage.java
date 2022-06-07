@@ -1,3 +1,7 @@
+package com.basejava.storage;
+
+import com.basejava.model.Resume;
+
 import java.util.Arrays;
 
 /**
@@ -8,7 +12,7 @@ public class ArrayStorage {
 
     private int size = 0;
 
-    void clear() {
+    public void clear() {
         for (Resume resume : storage) {
             if (resume != null) {
                 resume = null;
@@ -18,11 +22,11 @@ public class ArrayStorage {
         System.out.println("Хранилище очищено");
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         if (r == null) {
             return;
         }
-        int index = findIndex(r.uuid);
+        int index = findIndex(r.getUuid());
         if (index == -1) {
             storage[size] = r;
             size++;
@@ -31,7 +35,7 @@ public class ArrayStorage {
         }
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
             return storage[index];
@@ -39,7 +43,7 @@ public class ArrayStorage {
         return null;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int index = findIndex(uuid);
         if (index != -1) {
             System.out.format("Резюме с uuid: %s удалено%n", uuid);
@@ -51,7 +55,7 @@ public class ArrayStorage {
 
     private int findIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -62,11 +66,11 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 }
