@@ -1,10 +1,10 @@
-package com.basejava;
+package com.basejava.webapp;
 
-import com.basejava.model.Resume;
-import com.basejava.storage.ArrayStorage;
+import com.basejava.webapp.model.Resume;
+import com.basejava.webapp.storage.ArrayStorage;
 
 /**
- * Test for your com.basejava.storage.ArrayStorage implementation
+ * Test for your com.basejava.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
@@ -23,6 +23,19 @@ public class MainTestArrayStorage {
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
+
+        Resume r4 = new Resume();
+        r4.setUuid("uuid4");
+        ARRAY_STORAGE.update(r4);
+        ARRAY_STORAGE.update(r3);
+        printAll();
+
+        Resume r5 = new Resume();
+        r5.setUuid("uuid5");
+        ARRAY_STORAGE.save(r5);
+        Resume r6 = new Resume();
+        r6.setUuid("uuid6");
+        ARRAY_STORAGE.save(r6);
 
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
