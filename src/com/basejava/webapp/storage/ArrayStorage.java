@@ -3,12 +3,14 @@ package com.basejava.webapp.storage;
 import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[4];
+    protected static final int STORAGE_LIMIT = 10000;
+    protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
     private int size = 0;
 
@@ -27,22 +29,17 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (r == null) {
-            return;
-        }
-        if(size >= storage.length) {
+        Objects.requireNonNull(r);
+        if(size == STORAGE_LIMIT) {
             String msgForOverflow = "Внимание! В хранилище - нет свободного места. \n" +
                     "Резюме с uuid %s добавить не удалось. " +
                     "Попробуйте удалить неиспользуемые резюме\n\n";
             System.out.format(msgForOverflow, r.getUuid());
-            return;
-        }
-        int index = findIndex(r.getUuid());
-        if (index == -1) {
+        } else if (findIndex(r.getUuid()) != -1) {
+            System.out.format("Резюме с %s уже есть в базе\n", r.getUuid());
+        } else {
             storage[size] = r;
             size++;
-        } else {
-            System.out.format("Резюме с %s уже есть в базе\n", r.getUuid());
         }
     }
 
@@ -58,7 +55,8 @@ public class ArrayStorage {
         int index = findIndex(uuid);
         if (index != -1) {
             System.out.format("Резюме с uuid: %s удалено%n", uuid);
-            System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
+//            System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
         }
@@ -83,5 +81,9 @@ public class ArrayStorage {
         }
         System.out.format("Резюме с uuid: %s нет в хранилище\n", uuid);
         return -1;
+    }
+
+    public int getLength() {
+        return STORAGE_LIMIT;
     }
 }
