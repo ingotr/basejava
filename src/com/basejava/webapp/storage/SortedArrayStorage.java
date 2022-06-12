@@ -15,7 +15,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     protected int findIndex(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
-        System.out.println("current storage size " + size());
         int index = Arrays.binarySearch(storage, 0, size(), searchKey);
         if(index < 0) {
             System.out.format("Резюме с uuid: %s нет в хранилище\n", uuid);

@@ -40,7 +40,6 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume r) {
         Objects.requireNonNull(r);
         int index = findIndex(r.getUuid());
-        System.out.format("current index %d of resume with uuid%s\n", index, r.getUuid());
         if (size == STORAGE_LIMIT) {
             String msgForOverflow = "Внимание! В хранилище - нет свободного места. \n" +
                     "Резюме с uuid %s добавить не удалось. " +
