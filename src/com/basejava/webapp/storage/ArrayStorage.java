@@ -1,12 +1,14 @@
 package com.basejava.webapp.storage;
 
+import com.basejava.webapp.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void sortAfterDelete(int index) {
+    protected void fillDeletedElement(int index) {
         storage[index] = storage[size() - 1];
     }
 
@@ -19,5 +21,10 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         System.out.format("Резюме с uuid: %s нет в хранилище\n", uuid);
         return -1;
+    }
+
+    @Override
+    protected void insertElement(Resume r, int position) {
+        storage[size()] = r;
     }
 }

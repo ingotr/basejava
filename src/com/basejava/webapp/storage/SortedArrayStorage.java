@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void sortAfterDelete(int index) {
+    protected void fillDeletedElement(int index) {
         System.arraycopy(storage, index + 1, storage, index, size() - (index + 1));
     }
 
@@ -20,5 +20,12 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.out.format("Резюме с uuid: %s нет в хранилище\n", uuid);
         }
         return index;
+    }
+
+    @Override
+    protected void insertElement(Resume r, int position) {
+        int insertionIndex = - position - 1;
+        System.arraycopy(storage, insertionIndex, storage, insertionIndex + 1, size - insertionIndex);
+        storage[insertionIndex] = r;
     }
 }
