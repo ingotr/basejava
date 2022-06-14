@@ -47,6 +47,9 @@ public class MainTestSortedStorage {
         r10002.setUuid("uuid10002");
         ARRAY_STORAGE.save(r10002);
 
+        System.out.println("get 479: " + ARRAY_STORAGE.get("uuid479"));
+        System.out.println("get 5223: " + ARRAY_STORAGE.get("uuid5225"));
+
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
         printAll();
