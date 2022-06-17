@@ -8,12 +8,9 @@ public class MainTestSortedStorage {
     static final Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume();
-        r1.setUuid("uuid1");
-        Resume r2 = new Resume();
-        r2.setUuid("uuid2");
-        Resume r3 = new Resume();
-        r3.setUuid("uuid3");
+        Resume r1 = new Resume("uuid1");
+        Resume r2 = new Resume("uuid2");
+        Resume r3 = new Resume("uuid3");
 
         ARRAY_STORAGE.save(r1);
         printAll();
@@ -26,8 +23,7 @@ public class MainTestSortedStorage {
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
-        Resume r4 = new Resume();
-        r4.setUuid("uuid4");
+        Resume r4 = new Resume("uuid4");
         ARRAY_STORAGE.save(r4);
         ARRAY_STORAGE.update(r4);
         ARRAY_STORAGE.update(r3);
@@ -40,11 +36,9 @@ public class MainTestSortedStorage {
 //        }
 //        System.out.println("current storage size: " + ARRAY_STORAGE.size());
 
-        Resume r10001 = new Resume();
-        r10001.setUuid("uuid10001");
+        Resume r10001 = new Resume("uuid10001");
         ARRAY_STORAGE.save(r10001);
-        Resume r10002 = new Resume();
-        r10002.setUuid("uuid10002");
+        Resume r10002 = new Resume("uuid10002");
         ARRAY_STORAGE.save(r10002);
 
         System.out.println("get 479: " + ARRAY_STORAGE.get("uuid479"));
