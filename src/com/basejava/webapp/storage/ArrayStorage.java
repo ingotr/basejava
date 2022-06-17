@@ -9,12 +9,12 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void fillDeletedElement(int index) {
-        storage[index] = storage[size() - 1];
+        storage[index] = storage[size - 1];
     }
 
     @Override
     protected int findIndex(String uuid) {
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
@@ -25,6 +25,6 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void insertElement(Resume r, int position) {
-        storage[size()] = r;
+        storage[size] = r;
     }
 }
