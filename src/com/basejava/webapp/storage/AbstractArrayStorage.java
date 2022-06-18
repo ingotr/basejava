@@ -1,5 +1,8 @@
 package com.basejava.webapp.storage;
 
+import com.basejava.webapp.exception.ExistStorageException;
+import com.basejava.webapp.exception.NotExistStorageException;
+import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -26,7 +29,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             return storage[index];
         }
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     public void update(Resume r) {
@@ -34,6 +37,8 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = r;
             System.out.format("В резюме с индексом %d обновлен uuid: %s\n", index, storage[index].getUuid());
+        } else {
+            throw new NotExistStorageException(r.getUuid());
         }
     }
 
@@ -44,9 +49,9 @@ public abstract class AbstractArrayStorage implements Storage {
             String msgForOverflow = "Внимание! В хранилище - нет свободного места. \n" +
                     "Резюме с uuid %s добавить не удалось. " +
                     "Попробуйте удалить неиспользуемые резюме\n\n";
-            System.out.format(msgForOverflow, r.getUuid());
+            throw new StorageException(msgForOverflow, r.getUuid());
         } else if (index >= 0) {
-            System.out.format("Резюме с %s уже есть в базе\n", r.getUuid());
+            throw new ExistStorageException(r.getUuid());
         } else {
             insertElement(r, index);
             size++;
@@ -60,6 +65,8 @@ public abstract class AbstractArrayStorage implements Storage {
             fillDeletedElement(index);
             storage[size - 1] = null;
             size--;
+        } else {
+            throw new NotExistStorageException(uuid);
         }
     }
 
