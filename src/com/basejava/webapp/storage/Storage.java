@@ -17,5 +17,7 @@ public interface Storage {
 
     int size();
 
-    int getLength();
+    static int getLength() {
+        return 0;
+    }
 }

@@ -77,7 +77,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return Arrays.copyOf(storage, size);
     }
 
-    public int getLength() {
+    public static int getLength() {
         return STORAGE_LIMIT;
     }
 
