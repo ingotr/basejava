@@ -19,7 +19,6 @@ public class ArrayStorage extends AbstractArrayStorage {
                 return i;
             }
         }
-        System.out.format("Резюме с uuid: %s нет в хранилище\n", uuid);
         return -1;
     }
 
