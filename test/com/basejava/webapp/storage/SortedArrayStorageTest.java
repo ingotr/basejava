@@ -1,6 +1,4 @@
-package com.basejava.storage;
-
-import com.basejava.webapp.storage.SortedArrayStorage;
+package com.basejava.webapp.storage;
 
 public class SortedArrayStorageTest extends AbstractArrayStorageTest {
     public SortedArrayStorageTest() {

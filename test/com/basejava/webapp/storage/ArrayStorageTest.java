@@ -1,6 +1,4 @@
-package com.basejava.storage;
-
-import com.basejava.webapp.storage.ArrayStorage;
+package com.basejava.webapp.storage;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest {
     public ArrayStorageTest() {
