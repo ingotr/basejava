@@ -16,8 +16,4 @@ public interface Storage {
     Resume[] getAll();
 
     int size();
-
-    static int getLength() {
-        return 0;
-    }
 }
