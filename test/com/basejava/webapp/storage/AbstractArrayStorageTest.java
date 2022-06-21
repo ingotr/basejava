@@ -22,6 +22,7 @@ public abstract class AbstractArrayStorageTest {
     private static final Resume RESUME_2 = new Resume(UUID_2);
     private static final Resume RESUME_3 = new Resume(UUID_3);
     private static final Resume RESUME_4 = new Resume(UUID_4);
+    private static final Resume[] EXPECTED = {RESUME_1, RESUME_2, RESUME_3};
     private static final String UUID_NOT_EXIST = "dummy";
 
     protected AbstractArrayStorageTest(Storage storage) {
@@ -111,11 +112,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] resumes = storage.getAll();
-        assertSize(resumes.length);
-        assertGet(resumes[0]);
-        assertGet(resumes[1]);
-        assertGet(resumes[2]);
+        Resume[] actual = storage.getAll();
+        assertSize(actual.length);
+        assertArrayEquals(EXPECTED, actual);
     }
 
     @Test
