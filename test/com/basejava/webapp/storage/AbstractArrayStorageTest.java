@@ -45,7 +45,7 @@ public abstract class AbstractArrayStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        assertSize(storage.getAll().length);
+        assertArrayEquals(storage.getAll(), new Resume[0]);
     }
 
     @Test
