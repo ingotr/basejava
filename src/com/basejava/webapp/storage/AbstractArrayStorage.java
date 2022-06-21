@@ -1,19 +1,15 @@
 package com.basejava.webapp.storage;
 
-import com.basejava.webapp.exception.ExistStorageException;
-import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Objects;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
     protected int size = 0;
-
     public int size() {
         return size;
     }
@@ -24,55 +20,42 @@ public abstract class AbstractArrayStorage implements Storage {
         System.out.println("Хранилище очищено");
     }
 
-    public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
-        }
-        throw new NotExistStorageException(uuid);
+    public Resume runGet(Object index) {
+        return storage[(Integer) index];
     }
 
-    public void update(Resume r) {
-        int index = findIndex(r.getUuid());
-        if (index >= 0) {
-            storage[index] = r;
-            System.out.format("В резюме с индексом %d обновлен uuid: %s\n", index, storage[index].getUuid());
-        } else {
-            throw new NotExistStorageException(r.getUuid());
-        }
+    @Override
+    protected void runUpdate(Resume r, Object index) {
+        storage[(Integer) index] = r;
+        System.out.format("В резюме с индексом %d обновлен uuid: %s\n", index, storage[(Integer) index].getUuid());
     }
 
-    public void save(Resume r) {
-        Objects.requireNonNull(r);
-        int index = findIndex(r.getUuid());
+    @Override
+    protected void runSave(Resume r, Object index) {
+        String msgForOverflow = "Внимание! В хранилище - нет свободного места. \n" +
+                "Резюме с uuid %s добавить не удалось. " +
+                "Попробуйте удалить неиспользуемые резюме\n\n";
         if (size == STORAGE_LIMIT) {
-            String msgForOverflow = "Внимание! В хранилище - нет свободного места. \n" +
-                    "Резюме с uuid %s добавить не удалось. " +
-                    "Попробуйте удалить неиспользуемые резюме\n\n";
             throw new StorageException(msgForOverflow, r.getUuid());
-        } else if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
         } else {
-            insertElement(r, index);
+            insertElement(r, (Integer) index);
             size++;
         }
     }
 
-    public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            System.out.format("Резюме с uuid: %s удалено%n", uuid);
-            fillDeletedElement(index);
-            storage[size - 1] = null;
-            size--;
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
+    @Override
+    public void runDelete(Object index) {
+        fillDeletedElement((Integer) index);
+        System.out.format("Резюме с uuid: %s удалено%n", index);
+        storage[size - 1] = null;
+        size--;
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
@@ -85,5 +68,5 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void fillDeletedElement(int index);
 
-    protected abstract int findIndex(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 }
