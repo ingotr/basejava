@@ -11,6 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assume.assumeFalse;
 
 public abstract class AbstractStorageTest {
     private final Storage storage;
@@ -91,9 +92,8 @@ public abstract class AbstractStorageTest {
     @Test(expected = StorageException.class)
     public void saveOverflow() {
         System.out.println(storage.getClass().getName());
-        if (storage.getClass().getName().equals("com.basejava.webapp.storage.ListStorage")) {
-            return;
-        }
+        assumeFalse(storage.getClass().getName().equals("com.basejava.webapp.storage.ListStorage"));
+
         storage.clear();
         try {
             for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
