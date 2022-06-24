@@ -20,18 +20,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         System.out.println("Хранилище очищено");
     }
 
-    public Resume runGet(Object index) {
+    public Resume doGet(Object index) {
         return storage[(Integer) index];
     }
 
     @Override
-    protected void runUpdate(Resume r, Object index) {
+    protected void doUpdate(Resume r, Object index) {
         storage[(Integer) index] = r;
         System.out.format("В резюме с индексом %d обновлен uuid: %s\n", index, storage[(Integer) index].getUuid());
     }
 
     @Override
-    protected void runSave(Resume r, Object index) {
+    protected void doSave(Resume r, Object index) {
         String msgForOverflow = "Внимание! В хранилище - нет свободного места. \n" +
                 "Резюме с uuid %s добавить не удалось. " +
                 "Попробуйте удалить неиспользуемые резюме\n\n";
@@ -44,7 +44,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void runDelete(Object index) {
+    public void doDelete(Object index) {
         fillDeletedElement((Integer) index);
         System.out.format("Резюме с uuid: %s удалено%n", index);
         storage[size - 1] = null;
