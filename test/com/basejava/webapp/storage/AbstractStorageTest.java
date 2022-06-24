@@ -93,6 +93,7 @@ public abstract class AbstractStorageTest {
     public void saveOverflow() {
         System.out.println(storage.getClass().getName());
         assumeFalse(storage.getClass().getName().equals("com.basejava.webapp.storage.ListStorage"));
+        assumeFalse(storage.getClass().getName().equals("com.basejava.webapp.storage.MapStorage"));
 
         storage.clear();
         try {
