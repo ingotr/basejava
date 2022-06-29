@@ -29,12 +29,6 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.update(r3);
         printAll();
 
-//        for (int i = 5; i <= ARRAY_STORAGE.getLength(); i++) {
-//            Resume r = new Resume("uuid" + i);
-//            ARRAY_STORAGE.save(r);
-//        }
-//        System.out.println("current storage size: " + ARRAY_STORAGE.size());
-
         Resume r10001 = new Resume("uuid10001");
         ARRAY_STORAGE.save(r10001);
         Resume r10002 = new Resume("uuid10002");
@@ -54,7 +48,7 @@ public class MainTestArrayStorage {
 
     static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
+        for (Resume r : ARRAY_STORAGE.getAllSorted()) {
             System.out.println(r);
         }
     }
