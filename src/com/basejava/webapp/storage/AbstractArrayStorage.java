@@ -11,6 +11,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
     protected int size = 0;
+
     public int size() {
         return size;
     }

@@ -22,7 +22,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void insertElement(Resume r, int position) {
-        int insertionIndex = - position - 1;
+        int insertionIndex = -position - 1;
         System.arraycopy(storage, insertionIndex, storage, insertionIndex + 1, size - insertionIndex);
         storage[insertionIndex] = r;
     }
