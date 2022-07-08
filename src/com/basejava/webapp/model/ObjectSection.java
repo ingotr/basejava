@@ -4,25 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectSection extends Section {
-    private List<Organization> records;
+    private final List<Organization> organizations;
 
     public ObjectSection(SectionType type) {
         super(type);
-        records = new ArrayList<>();
+        organizations = new ArrayList<>();
     }
-
-//    public ObjectSection(SectionType type, List<Organization> records) {
-//        super(type);
-//        this.records = records;
-//    }
 
     public Organization addOrganization(String title, String website) {
         Organization newOrganization = new Organization(title, website);
-        records.add(newOrganization);
+        organizations.add(newOrganization);
         return newOrganization;
     }
 
-    public List<Organization> getRecords() {
-        return records;
+    public List<Organization> getOrganizations() {
+        return organizations;
+    }
+
+    @Override
+    public String toString() {
+        return this.getType().getName() + ": " + "ObjectSection{" +
+                "organizations=" + organizations +
+                '}';
     }
 }

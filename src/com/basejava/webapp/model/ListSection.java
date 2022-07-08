@@ -4,23 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListSection extends Section {
-    private List<String> descriptionList;
+    private final List<String> list;
 
     public ListSection(SectionType type) {
         super(type);
-        descriptionList = new ArrayList<>();
+        list = new ArrayList<>();
     }
-
-//    public ListSection(SectionType type, List<String> descriptionList) {
-//        super(type);
-//        this.descriptionList = descriptionList;
-//    }
 
     public void addToList(String text) {
-        descriptionList.add(text);
+        list.add(text);
     }
 
-    public List<String> getDescriptionList() {
-        return descriptionList;
+    public List<String> getList() {
+        return list;
+    }
+
+    @Override
+    public String toString() {
+        return this.getType().getName() + ": " + "ListSection{" +
+                "list=" + list +
+                '}';
     }
 }
