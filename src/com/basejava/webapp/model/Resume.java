@@ -38,8 +38,8 @@ public class Resume implements Comparable<Resume> {
         contacts.put(type, contact);
     }
 
-    public Map<ContactType, String> getContacts() {
-        return contacts;
+    public String getContact(ContactType type) {
+        return contacts.get(type);
     }
 
     public void addSection(SectionType type) {
@@ -48,13 +48,13 @@ public class Resume implements Comparable<Resume> {
             case OBJECTIVE:
                 sections.put(type, new TextSection(type));
                 break;
-            case ACHIEVMENTS:
+            case ACHIEVEMENTS:
             case QUALIFICATIONS:
                 sections.put(type, new ListSection(type));
                 break;
             case EXPERIENCE:
             case EDUCATION:
-                sections.put(type, new ObjectSection(type));
+                sections.put(type, new OrganizationSection(type));
                 break;
             default:
                 break;
@@ -63,11 +63,6 @@ public class Resume implements Comparable<Resume> {
 
     public Section getSection(SectionType type) {
         return sections.get(type);
-    }
-
-
-    public Map<SectionType, Section> getSections() {
-        return sections;
     }
 
     @Override

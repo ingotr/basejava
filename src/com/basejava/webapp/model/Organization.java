@@ -1,14 +1,14 @@
 package com.basejava.webapp.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Organization {
 
-    private String title;
-    private String website;
-    private List<Period> periods;
+    private final String title;
+    private final String website;
+    private final List<Period> periods;
 
     public Organization(String title, String website) {
         this.title = title;
@@ -16,16 +16,23 @@ public class Organization {
         this.periods = new ArrayList<>();
     }
 
-    public void addPeriod(String startDate, String endDate, String title, String description) {
+    public void addPeriod(LocalDate startDate, LocalDate endDate, String title, String description) {
         periods.add(new Period(startDate, endDate, title, description));
     }
 
     @Override
     public String toString() {
-        return "Organization{" +
-                "title='" + title + '\'' +
-                ", website='" + website + '\'' +
-                ", periods=" + periods +
-                '}';
+        return "Organization: " +
+                "title=" + title + " " + "\n" +
+                "website=" + website + "\n" +
+                "periods=" + getPeriods();
+    }
+
+    private String getPeriods() {
+        StringBuilder listToString = new StringBuilder();
+        for (Period item : periods) {
+            listToString.append(item).append("\n");
+        }
+        return String.valueOf(listToString);
     }
 }

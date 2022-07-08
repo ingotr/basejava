@@ -11,14 +11,8 @@ public class TextSection extends Section {
         this.content = content;
     }
 
-    public String getContent() {
-        return content;
-    }
-
     @Override
     public String toString() {
-        return this.getType().getName() + ": " + "TextSection{" +
-                "content='" + content + '\'' +
-                '}';
+        return this.getType().getName() + ": " + content;
     }
 }

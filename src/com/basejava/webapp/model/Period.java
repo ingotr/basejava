@@ -1,12 +1,14 @@
 package com.basejava.webapp.model;
 
-public class Period {
-    private String startDate;
-    private String endDate;
-    private String position;
-    private String duties;
+import java.time.LocalDate;
 
-    public Period(String startDate, String endDate, String position, String duties) {
+public class Period {
+    private final LocalDate startDate;
+    private final LocalDate endDate;
+    private final String position;
+    private final String duties;
+
+    public Period(LocalDate startDate, LocalDate endDate, String position, String duties) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.position = position;
@@ -15,11 +17,11 @@ public class Period {
 
     @Override
     public String toString() {
-        return "Period{" +
-                "startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", position='" + position + '\'' +
-                ", duties='" + duties + '\'' +
+        return "Period{" + "\n" +
+                "   startDate = " + startDate +
+                " -- endDate = " + endDate + "\n" +
+                "   position= " + position + "\n" +
+                "   duties=" + duties + "\n" +
                 '}';
     }
 }

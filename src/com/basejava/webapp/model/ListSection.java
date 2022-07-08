@@ -21,8 +21,12 @@ public class ListSection extends Section {
 
     @Override
     public String toString() {
-        return this.getType().getName() + ": " + "ListSection{" +
-                "list=" + list +
-                '}';
+        StringBuilder listToString = new StringBuilder();
+        listToString.append(this.getType().getName()).append(" {\n");
+        for (String item : list) {
+            listToString.append(item).append("\n");
+        }
+        listToString.append("}");
+        return String.valueOf(listToString);
     }
 }
