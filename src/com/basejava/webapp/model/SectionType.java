@@ -3,7 +3,7 @@ package com.basejava.webapp.model;
 public enum SectionType {
     OBJECTIVE("позиция"),
     PERSONAL("личные качества"),
-    ACHIEVMENTS("достижения"),
+    ACHIEVEMENTS("достижения"),
     QUALIFICATIONS("квалификация"),
     EXPERIENCE("опыт"),
     EDUCATION("образование"),

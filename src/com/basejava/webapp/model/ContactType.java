@@ -1,17 +1,21 @@
 package com.basejava.webapp.model;
 
 public enum ContactType {
-    EMAIL("электронная почта"),
-    MOBILE_PHONE("мобильный телефон"),
-    GITHUB("профиль github"),
-    LINKEDIN("профиль linkedin"),
-    STACKOVERFLOW("профиль stackoverflow"),
-    HOMEPAGE("домашняя страница"),
-    TELEGRAM("телеграм"),
-    SLACK("slack"),
+    PHONE("тел."),
     SKYPE("skype"),
+    EMAIL("почта"),
+    GITHUB("профиль GitHub"),
+    LINKEDIN("профиль Linkedin"),
+    STACKOVERFLOW("профиль Stackoverflow"),
+    HOMEPAGE("домашняя страница"),
     ;
+    private final String value;
 
     ContactType(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return this.value;
     }
 }
