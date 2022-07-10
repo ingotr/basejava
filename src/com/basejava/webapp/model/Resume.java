@@ -38,31 +38,55 @@ public class Resume implements Comparable<Resume> {
         contacts.put(type, contact);
     }
 
-    public String getContact(ContactType type) {
-        return contacts.get(type);
+    public Map<ContactType, String> getContacts() {
+        return contacts;
     }
 
     public void addSection(SectionType type) {
         switch (type) {
             case PERSONAL:
             case OBJECTIVE:
-                sections.put(type, new TextSection(type));
+                sections.put(type, new TextSection(""));
                 break;
             case ACHIEVEMENTS:
             case QUALIFICATIONS:
-                sections.put(type, new ListSection(type));
+                sections.put(type, new ListSection());
                 break;
             case EXPERIENCE:
             case EDUCATION:
-                sections.put(type, new OrganizationSection(type));
+                sections.put(type, new OrganizationSection());
                 break;
             default:
                 break;
         }
     }
 
+    public void addSection(SectionType type, String content) {
+        switch (type) {
+            case PERSONAL:
+            case OBJECTIVE:
+                sections.put(type, new TextSection(content));
+                break;
+            case ACHIEVEMENTS:
+            case QUALIFICATIONS:
+                sections.put(type, new ListSection());
+                break;
+            case EXPERIENCE:
+            case EDUCATION:
+                sections.put(type, new OrganizationSection());
+                break;
+            default:
+                break;
+        }
+    }
+    
+
     public Section getSection(SectionType type) {
         return sections.get(type);
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
     }
 
     @Override
