@@ -4,16 +4,14 @@ import com.basejava.webapp.model.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Map;
 
 public class ResumeTestData {
     public static void main(String[] args) {
         Resume test = new Resume("Григорий Кислин");
         addMockContacts(test);
-
-        addMockTextSections(test);
-
         addMockListSections(test);
-
+        addMockTextSections(test);
         addMockOrganizationsSections(test);
 
         printMockResume(test);
@@ -21,12 +19,12 @@ public class ResumeTestData {
 
     private static void printMockResume(Resume test) {
         System.out.println(test.getFullName());
-        for (ContactType type : ContactType.values()) {
-            System.out.println(type.getValue() + ": " + test.getContact(type));
+        for (Map.Entry<ContactType, String> entry : test.getContacts().entrySet()) {
+            System.out.println(entry.getKey().getValue() + ": " + entry.getValue());
         }
         System.out.println();
-        for (SectionType type : SectionType.values()) {
-            System.out.println((test.getSection(type)).toString());
+        for (Map.Entry<SectionType, Section> entry : test.getSections().entrySet()) {
+            System.out.println(entry.getKey().getValue() + ": \n" + entry.getValue());
             System.out.println();
         }
     }
@@ -158,14 +156,10 @@ public class ResumeTestData {
     }
 
     private static void addMockTextSections(Resume test) {
-        test.addSection(SectionType.OBJECTIVE);
-        ((TextSection) test.getSection(SectionType.OBJECTIVE)).
-                setContent("Ведущий стажировок и корпоративного " +
-                        "обучения по Java Web и Enterprise технологиям ");
-        test.addSection(SectionType.PERSONAL);
-        ((TextSection) test.getSection(SectionType.PERSONAL)).
-                setContent("Аналитический склад ума, сильная логика," +
-                        " креативность, инициативность. Пурист кода и архитектуры.");
+        test.addSection(SectionType.OBJECTIVE, "Ведущий стажировок и корпоративного " +
+                "обучения по Java Web и Enterprise технологиям ");
+        test.addSection(SectionType.PERSONAL, "Аналитический склад ума, сильная логика," +
+                " креативность, инициативность. Пурист кода и архитектуры.");
     }
 
     private static void addMockContacts(Resume test) {
