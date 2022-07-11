@@ -3,10 +3,10 @@ package com.basejava.webapp.storage;
 import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.model.Resume;
+import com.basejava.webapp.ResumeTestData;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,10 +20,10 @@ public abstract class AbstractStorageTest {
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
 
-    private static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Name2");
-    private static final Resume RESUME_3 = new Resume(UUID_3, "Name3");
-    private static final Resume RESUME_4 = new Resume(UUID_4, "Name4");
+    private static final Resume RESUME_1 = ResumeTestData.getMockResume(UUID_1, "Name1");
+    private static final Resume RESUME_2 = ResumeTestData.getMockResume(UUID_2, "Name2");
+    private static final Resume RESUME_3 = ResumeTestData.getMockResume(UUID_3, "Name3");
+    private static final Resume RESUME_4 = ResumeTestData.getMockResume(UUID_4, "Name4");
 
     private static final String UUID_NOT_EXIST = "dummy";
 
