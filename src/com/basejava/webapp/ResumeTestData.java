@@ -8,13 +8,16 @@ import java.util.Map;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        Resume test = new Resume("Григорий Кислин");
-        addMockContacts(test);
-        addMockListSections(test);
-        addMockTextSections(test);
-        addMockOrganizationsSections(test);
+        printMockResume(getMockResume("testUuid", "Григорий Кислин"));
+    }
 
-        printMockResume(test);
+    public static Resume getMockResume(String uuid, String name) {
+        Resume mockResume = new Resume(uuid, name);
+        addMockContacts(mockResume);
+        addMockTextSections(mockResume);
+        addMockListSections(mockResume);
+        addMockOrganizationsSections(mockResume);
+        return mockResume;
     }
 
     private static void printMockResume(Resume test) {
@@ -24,6 +27,7 @@ public class ResumeTestData {
         }
         System.out.println();
         for (Map.Entry<SectionType, Section> entry : test.getSections().entrySet()) {
+            System.out.println(test.getSections().keySet());
             System.out.println(entry.getKey().getValue() + ": \n" + entry.getValue());
             System.out.println();
         }
