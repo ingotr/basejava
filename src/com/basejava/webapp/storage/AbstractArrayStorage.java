@@ -6,7 +6,7 @@ import com.basejava.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
@@ -22,40 +22,40 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         System.out.println("Хранилище очищено");
     }
 
-    public Resume doGet(Object index) {
-        return storage[(Integer) index];
+    public Resume doGet(Integer index) {
+        return storage[index];
     }
 
     @Override
-    protected void doUpdate(Resume r, Object index) {
-        storage[(Integer) index] = r;
-        System.out.format("В резюме с индексом %d обновлен uuid: %s\n", index, storage[(Integer) index].getUuid());
+    protected void doUpdate(Resume r, Integer index) {
+        storage[index] = r;
+        System.out.format("В резюме с индексом %d обновлен uuid: %s\n", index, storage[index].getUuid());
     }
 
     @Override
-    protected void doSave(Resume r, Object index) {
+    protected void doSave(Resume r, Integer index) {
         String msgForOverflow = "Внимание! В хранилище - нет свободного места. \n" +
                 "Резюме с uuid %s добавить не удалось. " +
                 "Попробуйте удалить неиспользуемые резюме\n\n";
         if (size == STORAGE_LIMIT) {
             throw new StorageException(msgForOverflow, r.getUuid());
         } else {
-            insertElement(r, (Integer) index);
+            insertElement(r, index);
             size++;
         }
     }
 
     @Override
-    public void doDelete(Object index) {
-        fillDeletedElement((Integer) index);
+    public void doDelete(Integer index) {
+        fillDeletedElement(index);
         System.out.format("Резюме с uuid: %s удалено%n", index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     @Override
