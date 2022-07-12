@@ -3,17 +3,12 @@ package com.basejava.webapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MainFile {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String filePath = "./.gitignore";
 
         File file = new File(filePath);
@@ -38,36 +33,26 @@ public class MainFile {
             throw new RuntimeException(e);
         }
 
-//        try (Stream<Path> walk = Files.walk(Paths.get("./src"))) {
-//            List<String> result = walk.filter(Files::isRegularFile)
-//                    .map(x -> x.toString()).collect(Collectors.toList());
-//
-//            result.forEach(System.out::println);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         final File folder = new File("./src");
+       File[] maindir = folder.listFiles();
         List<String> result = new ArrayList<>();
-        search(".*\\.java", folder, result);
+        search(maindir, result, 0);
 
         for (String s : result) {
             System.out.println(s);
         }
     }
 
-    public static void search(final String pattern, final File folder, List<String> result) {
-        for (final File f : Objects.requireNonNull(folder.listFiles())) {
-
-            if (f.isDirectory()) {
-                search(pattern, f, result);
-            }
+    public static void search(final File[] folder, List<String> result, int level) {
+        for (final File f : Objects.requireNonNull(folder)) {
+            StringBuilder prefix = new StringBuilder();
+            prefix.append("\t".repeat(Math.max(0, level)));
 
             if (f.isFile()) {
-                if (f.getName().matches(pattern)) {
-                    result.add(f.getPath());
-                }
+                result.add(prefix + f.getName());
+            } else if (f.isDirectory()) {
+                result.add(prefix + "[" + f.getName() + "]");
+                search(f.listFiles(), result, level + 1);
             }
         }
     }
