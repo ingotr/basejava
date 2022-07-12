@@ -68,10 +68,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doDelete(File file) {
-        try {
-            Files.delete(Paths.get(file.getName()));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!file.delete()) {
+            throw new StorageException("file was not deleted", file.getName());
         }
     }
 
@@ -79,8 +77,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> doCopyAll() {
         try (Stream<Path> walk = Files.walk(Paths.get("./directory"))) {
             return walk.filter(Files::isRegularFile)
-                    .map(x -> x.toString())
-                    .map(x -> new Resume(x))
+                    .map(Path::toString)
+                    .map(Resume::new)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,7 +90,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public void clear() {
         try (Stream<Path> walk = Files.walk(Paths.get("./directory"))) {
             walk.filter(Files::isRegularFile)
-                    .map(x -> x.toString())
+                    .map(Path::toString)
                     .collect(Collectors.toList())
                     .clear();
         } catch (IOException e) {
