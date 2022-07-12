@@ -1,20 +1,23 @@
 package com.basejava.webapp.storage;
 
+import com.basejava.webapp.ResumeTestData;
 import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.model.Resume;
-import com.basejava.webapp.ResumeTestData;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("/home/ingotr/documents/storage");
+    protected static final File STORAGE_DIR = new File("./storage");
+    protected static final Path STORAGE_PATH = Path.of("./storage");
+
     protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";
