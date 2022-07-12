@@ -1,10 +1,13 @@
 package com.basejava.webapp.model;
 
+import com.sun.source.doctree.SerialDataTree;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends Section {
+public class ListSection extends Section implements Serializable {
     private final List<String> list;
 
     public ListSection() {
