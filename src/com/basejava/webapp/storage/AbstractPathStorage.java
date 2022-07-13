@@ -78,8 +78,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected List<Resume> doCopyAll() {
         try (Stream<Path> walk = Files.walk(Paths.get(String.valueOf(directory)))) {
             return walk.filter(Files::isRegularFile)
-                    .map(Path::toString)
-                    .map(Resume::new)
+                    .map(this::doGet)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
