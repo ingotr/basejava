@@ -29,13 +29,13 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     }
     @Override
     protected Path getSearchKey(String uuid) {
-        return Paths.get(String.valueOf(directory), uuid);
+        return directory.resolve(uuid);
     }
 
     @Override
     protected void doUpdate(Resume r, Path searchKey) {
-        try {
-            doWrite(r, new BufferedOutputStream(Files.newOutputStream(searchKey)));
+        try(ObjectOutputStream output = new ObjectOutputStream(Files.newOutputStream(searchKey))) {
+            output.writeObject(r);
         } catch (IOException e) {
             throw new StorageException("Path write error", r.getUuid(), e);
         }
@@ -50,9 +50,8 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     protected void doSave(Resume r, Path searchKey) {
         try {
             Files.createFile(searchKey);
-
         } catch (IOException e) {
-            throw new StorageException("Couldn't create Path " + searchKey.isAbsolute(), searchKey.getFileName().toString(), e);
+            throw new RuntimeException(e);
         }
         doUpdate(r, searchKey);
     }
@@ -69,9 +68,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doDelete(Path searchKey){
         try {
-            if (!Files.deleteIfExists(searchKey)) {
-                throw new StorageException("Path delete error", searchKey.getFileName().toString());
-            }
+            Files.delete(searchKey);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
