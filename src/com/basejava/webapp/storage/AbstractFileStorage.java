@@ -4,16 +4,16 @@ import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
     private final File directory;
+
+    protected abstract Resume doRead(InputStream is) throws IOException;
+
+    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory must not be null");
@@ -54,8 +54,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
-
     @Override
     protected Resume doGet(File file) {
         try {
@@ -64,8 +62,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new StorageException("File read error", file.getName(), e);
         }
     }
-
-    protected abstract Resume doRead(InputStream is) throws IOException;
 
     @Override
     protected void doDelete(File file) {
@@ -76,37 +72,33 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> doCopyAll() {
-        try (Stream<Path> walk = Files.walk(Paths.get("./directory"))) {
-            return walk.filter(Files::isRegularFile)
-                    .map(Path::toString)
-                    .map(Resume::new)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            e.printStackTrace();
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error", "");
         }
-        return null;
+        List<Resume> list = new ArrayList<>(files.length);
+        for (File file : files) {
+            list.add(doGet(file));
+        }
+        return list;
     }
 
     @Override
     public void clear() {
-        try (Stream<Path> walk = Files.walk(Paths.get("./directory"))) {
-            walk.filter(Files::isRegularFile)
-                    .map(Path::toString)
-                    .collect(Collectors.toList())
-                    .clear();
-        } catch (IOException e) {
-            e.printStackTrace();
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                doDelete(file);
+            }
         }
     }
 
     @Override
     public int size() {
-        try (Stream<Path> walk = Files.walk(Paths.get("./directory"))) {
-            return (int) walk.filter(Files::isRegularFile)
-                    .count();
-        } catch (IOException e) {
-            e.printStackTrace();
+        String[] list = directory.list();
+        if (list == null) {
+            throw new StorageException("Directory get error", "");
         }
-        return -1;
+        return list.length;
     }
 }
