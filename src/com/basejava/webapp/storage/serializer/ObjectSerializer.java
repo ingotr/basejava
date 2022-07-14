@@ -1,18 +1,13 @@
-package com.basejava.webapp.storage;
+package com.basejava.webapp.storage.serializer;
 
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 
 import java.io.*;
-import java.nio.file.Path;
 
-public class ObjectStreamPathStorage extends AbstractPathStorage{
-    protected ObjectStreamPathStorage(Path directory) {
-        super(String.valueOf(directory));
-    }
-
+public class ObjectSerializer implements Serializer {
     @Override
-    protected void doWrite(Resume r, OutputStream os) {
+    public void doWrite(Resume r, OutputStream os) {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(r);
         } catch (IOException e) {
@@ -21,7 +16,7 @@ public class ObjectStreamPathStorage extends AbstractPathStorage{
     }
 
     @Override
-    protected Resume doRead(InputStream is) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {
