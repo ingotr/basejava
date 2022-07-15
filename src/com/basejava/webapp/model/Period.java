@@ -1,14 +1,25 @@
 package com.basejava.webapp.model;
 
+import com.basejava.webapp.util.LocalDateAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Period implements Serializable {
-    private final LocalDate startDate;
-    private final LocalDate endDate;
-    private final String position;
-    private final String duties;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    private LocalDate startDate;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    private LocalDate endDate;
+    private String position;
+    private String duties;
+
+    public Period() {
+    }
 
     public Period(LocalDate startDate, LocalDate endDate, String position, String duties) {
         this.startDate = startDate;

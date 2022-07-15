@@ -1,16 +1,23 @@
 package com.basejava.webapp.model;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
 
-    private final String title;
-    private final String website;
-    private final List<Period> periods;
+    private String title;
+    private String website;
+    private List<Period> periods;
+
+    public Organization() {
+    }
 
     public Organization(String title, String website) {
         this.title = title;

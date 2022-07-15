@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class TextSection extends Section implements Serializable {
-    private final String content;
+    private String content;
+
+    public TextSection() {
+    }
 
     public TextSection(String content) {
         //super(type);
