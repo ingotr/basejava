@@ -11,7 +11,7 @@ public class ObjectSerializer implements Serializer {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(r);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new StorageException("Error write resume", null, e);
         }
     }
 

@@ -51,7 +51,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(searchKey);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new StorageException("Path save error", searchKey.getFileName().toString(),e);
         }
         doUpdate(r, searchKey);
     }
@@ -93,7 +93,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return Files.list(directory);
         } catch (IOException e) {
-            throw new RuntimeException(message, e);
+            throw new StorageException(message, null, e);
         }
     }
 }
