@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,9 +108,16 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> actual = storage.getAllSorted();
-        List<Resume> EXPECTED = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        //List<Resume> EXPECTED = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        List<Resume> EXPECTED = new ArrayList<>();
+        EXPECTED.add(RESUME_1);
+        EXPECTED.add(RESUME_2);
+        EXPECTED.add(RESUME_3);
         assertEquals(EXPECTED.size(), actual.size());
-        assertEquals(EXPECTED, actual);
+        assertGet(actual.get(0));
+        assertGet(actual.get(1));
+        assertGet(actual.get(2));
+        //assertEquals(EXPECTED, actual);
     }
 
     @Test

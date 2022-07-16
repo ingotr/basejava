@@ -17,13 +17,13 @@ public class DataSerializer implements Serializer {
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
             dos.writeInt(contacts.size());
-            Map<SectionType, Section> sections = r.getSections();
-            dos.writeInt(sections.size());
             for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-                dos.writeUTF(entry.getKey().toString());
+                dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
             // TODO implements sections
+            Map<SectionType, Section> sections = r.getSections();
+            dos.writeInt(sections.size());
 //            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
 //                dos.writeUTF(entry.getKey().name());
 //                dos.writeUTF(String.valueOf(entry.getValue()));
@@ -37,10 +37,8 @@ public class DataSerializer implements Serializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            System.out.println(resume);
-            int conctactsSize = dis.readInt();
-            System.out.println(conctactsSize);
-            for (int i = 0; i < conctactsSize; i++) {
+            int size = dis.readInt();
+            for (int i = 0; i < size; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
             // TODO implements sections
