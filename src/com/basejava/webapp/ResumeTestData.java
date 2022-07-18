@@ -2,7 +2,6 @@ package com.basejava.webapp;
 
 import com.basejava.webapp.model.*;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Map;
 
@@ -37,8 +36,8 @@ public class ResumeTestData {
         test.addSection(SectionType.EXPERIENCE);
         OrganizationSection experienceSection = (OrganizationSection) test.getSection(SectionType.EXPERIENCE);
         (experienceSection.addOrganization("Java Online Projects", "http://javaops.ru/")).
-                addPeriod((YearMonth.parse("2013-10").atEndOfMonth()), LocalDate.now(), "Автор проекта.",
-                        "Создание, организация и проведение Java онлайн проектов и стажировок.");
+                addPeriod((YearMonth.parse("2013-10").atEndOfMonth()), (YearMonth.parse("2022-07").atEndOfMonth()),
+                        "Автор проекта.", "Создание, организация и проведение Java онлайн проектов и стажировок.");
         (experienceSection.addOrganization("Wrike", "https://www.wrike.com/")).
                 addPeriod((YearMonth.parse("2014-10").atEndOfMonth()), (YearMonth.parse("2016-01").atEndOfMonth()),
                         "Автор проекта.Старший разработчик (backend)",
