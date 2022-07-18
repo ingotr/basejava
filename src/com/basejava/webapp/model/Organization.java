@@ -21,7 +21,7 @@ public class Organization implements Serializable {
 
     public Organization(String title, String website) {
         this.title = title;
-        this.website = website;
+        this.website = website == null ? "" : website;
         this.periods = new ArrayList<>();
     }
 
