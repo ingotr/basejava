@@ -25,8 +25,8 @@ public class Organization implements Serializable {
         this.periods = new ArrayList<>();
     }
 
-    public void addPeriod(LocalDate startDate, LocalDate endDate, String title, String description) {
-        periods.add(new Period(startDate, endDate, title, description));
+    public void addPeriod(LocalDate startDate, LocalDate endDate, String position, String duties) {
+        periods.add(new Period(startDate, endDate, position, duties));
     }
 
     @Override
@@ -37,12 +37,16 @@ public class Organization implements Serializable {
                 "periods=" + getPeriods();
     }
 
-    private String getPeriods() {
-        StringBuilder listToString = new StringBuilder();
-        for (Period item : periods) {
-            listToString.append(item).append("\n");
-        }
-        return String.valueOf(listToString);
+    public String getTitle() {
+        return title;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public List<Period> getPeriods() {
+        return periods;
     }
 
     @Override
