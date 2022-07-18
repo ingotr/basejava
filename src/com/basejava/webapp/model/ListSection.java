@@ -1,7 +1,5 @@
 package com.basejava.webapp.model;
 
-import com.sun.source.doctree.SerialDataTree;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +14,10 @@ public class ListSection extends Section implements Serializable {
 
     public void addToList(String text) {
         list.add(text);
+    }
+
+    public void addAllToList(List<String> content) {
+        list.addAll(content);
     }
 
     public List<String> getList() {

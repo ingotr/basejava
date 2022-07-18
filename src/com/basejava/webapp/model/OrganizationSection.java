@@ -18,6 +18,10 @@ public class OrganizationSection extends Section implements Serializable {
         return newOrganization;
     }
 
+    public void addAllOrganizations(List<Organization> organizations) {
+        this.organizations.addAll(organizations);
+    }
+
     public Organization getOrganization(int index) {
         return organizations.get(index);
     }
