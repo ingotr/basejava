@@ -3,6 +3,7 @@ package com.basejava.webapp.storage.serializer;
 import com.basejava.webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,15 +26,14 @@ public class DataSerializer implements Serializer {
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
                 String type = entry.getKey().name();
+                dos.writeUTF(entry.getKey().name());
                 switch (type) {
                     case "OBJECTIVE":
                     case "PERSONAL":
-                        dos.writeUTF(entry.getKey().name());
                         dos.writeUTF(String.valueOf(entry.getValue()));
                         break;
                     case "ACHIEVEMENTS":
                     case "QUALIFICATIONS":
-                        dos.writeUTF(entry.getKey().name());
                         List<String> content = ((ListSection)(entry.getValue())).getList();
                         dos.writeInt(content.size());
                         for (String line : content) {
@@ -42,7 +42,6 @@ public class DataSerializer implements Serializer {
                         break;
                     case "EXPERIENCE":
                     case "EDUCATION":
-                        dos.writeUTF(entry.getKey().name());
                         List<Organization> organizations = ((OrganizationSection)(entry.getValue())).getOrganizations();
                         dos.writeInt(organizations.size());
                         for (Organization org : organizations) {
@@ -50,8 +49,8 @@ public class DataSerializer implements Serializer {
                             dos.writeUTF(org.getWebsite());
                             dos.writeInt(org.getPeriods().size());
                             for (Period period : org.getPeriods()) {
-                                dos.writeUTF(String.valueOf(period.getStartDate()));
-                                dos.writeUTF(String.valueOf(period.getEndDate()));
+                                dos.writeUTF(period.getStartDate().toString());
+                                dos.writeUTF(period.getEndDate().toString());
                                 dos.writeUTF(period.getPosition());
                                 dos.writeUTF(period.getDuties());
                             }
@@ -72,9 +71,7 @@ public class DataSerializer implements Serializer {
             for (int i = 0; i < size; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
-            // TODO implements sections
             int sectionsSize = dis.readInt();
-            //System.out.println(sectionsSize);
             for (int i = 0; i < sectionsSize; i++) {
                 String type = dis.readUTF();
                 switch (type) {
@@ -102,26 +99,18 @@ public class DataSerializer implements Serializer {
                         for (int j = 0; j < organizationsSize; j++) {
                             String title = dis.readUTF();
                             String website = dis.readUTF();
-//                            System.out.println("title: " + title);
-//                            System.out.println("website: " + website);
                             Organization newOrg = new Organization(title, website);
                             int periodsSize = dis.readInt();
                             for (int k = 0; k < periodsSize; k++) {
-                                LocalDate startdate = LocalDate.parse(dis.readUTF());
-                                LocalDate enddate = LocalDate.parse(dis.readUTF());
-//                                System.out.println("stardate: " + startdate);
-//                                System.out.println("enddate: " + enddate);
+                                LocalDate startdate = YearMonth.parse(dis.readUTF()).atEndOfMonth();
+                                LocalDate enddate = YearMonth.parse(dis.readUTF()).atEndOfMonth();
                                 String position = dis.readUTF();
                                 String duties = dis.readUTF();
-//                                System.out.println("position: " + position);
-//                                System.out.println("duties: " + duties);
                                 newOrg.addPeriod(startdate, enddate, position, duties);
                             }
-                            //System.out.println(newOrg);
                             organizations.add(newOrg);
                         }
                         organizationSection.addAllOrganizations(organizations);
-                        //System.out.println(organizationSection);
                         resume.addSection(SectionType.valueOf(type), organizationSection);
                         break;
                 }
