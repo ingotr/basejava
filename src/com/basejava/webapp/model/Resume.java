@@ -51,6 +51,10 @@ public class Resume implements Comparable<Resume>, Serializable {
         return contacts;
     }
 
+    public void addSection(SectionType type, Section section) {
+        sections.put(type, section);
+    }
+
     public void addSection(SectionType type) {
         switch (type) {
             case PERSONAL:
@@ -105,7 +109,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         Resume resume = (Resume) o;
         return Objects.equals(uuid, resume.uuid) &&
                 Objects.equals(fullName, resume.fullName) &&
-                //Objects.equals(sections, resume.sections) &&
+                Objects.equals(sections, resume.sections) &&
                 Objects.equals(contacts, resume.contacts);
     }
 
