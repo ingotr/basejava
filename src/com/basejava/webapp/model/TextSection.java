@@ -10,7 +10,6 @@ public class TextSection extends Section implements Serializable {
     }
 
     public TextSection(String content) {
-        //super(type);
         this.content = content;
     }
 
@@ -20,7 +19,7 @@ public class TextSection extends Section implements Serializable {
 
     @Override
     public String toString() {
-        return "content: " + content;
+        return content;
     }
 
     @Override
