@@ -62,4 +62,8 @@ public class Organization implements Serializable {
     public int hashCode() {
         return Objects.hash(title, website, periods);
     }
+
+    public void addAllPeriods(List<Period> periods) {
+        this.periods.addAll(periods);
+    }
 }
