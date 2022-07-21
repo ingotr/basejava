@@ -13,12 +13,11 @@ public class MainStream {
         System.out.println(oddOrEven(integers));
     }
 
-    public static String minValue(int[] values) {
+    public static int minValue(int[] values) {
         return Arrays.stream(values)
                 .distinct()
                 .sorted()
-                .mapToObj(String::valueOf)
-                .collect(Collectors.joining());
+                .reduce(0, (a, b) -> 10 * a + b);
     }
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
