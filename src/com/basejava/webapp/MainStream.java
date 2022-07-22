@@ -22,16 +22,9 @@ public class MainStream {
     }
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
-        Predicate<Integer> isEven = el -> el % 2 == 0;
-        Predicate<Integer> notEven = el -> el % 2 != 0;
+        int sumRemainder = integers.stream().mapToInt(Integer::intValue).sum() % 2;
         return integers.stream()
-                .reduce(0, Integer::sum) % 2 == 0 ?
-                getList(integers, isEven) : getList(integers, notEven);
-    }
-
-    private static List<Integer> getList(List<Integer> integers, Predicate<Integer> isEven) {
-        return integers.stream()
-                .filter(isEven)
+                .filter(el1 -> el1 % 2 != sumRemainder)
                 .collect(Collectors.toList());
     }
 }
