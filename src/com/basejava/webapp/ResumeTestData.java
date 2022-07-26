@@ -12,10 +12,10 @@ public class ResumeTestData {
 
     public static Resume getMockResume(String uuid, String name) {
         Resume mockResume = new Resume(uuid, name);
-        addMockContacts(mockResume);
-        addMockTextSections(mockResume);
-        addMockListSections(mockResume);
-        addMockOrganizationsSections(mockResume);
+//        addMockContacts(mockResume);
+//        addMockTextSections(mockResume);
+//        addMockListSections(mockResume);
+//        addMockOrganizationsSections(mockResume);
         return mockResume;
     }
 
