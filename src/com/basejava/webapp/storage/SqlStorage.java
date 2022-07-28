@@ -1,9 +1,11 @@
 package com.basejava.webapp.storage;
 
+import com.basejava.webapp.exception.ExistStorageException;
 import com.basejava.webapp.exception.NotExistStorageException;
 import com.basejava.webapp.exception.StorageException;
 import com.basejava.webapp.model.Resume;
 import com.basejava.webapp.sql.ConnectionFactory;
+import org.postgresql.util.PSQLException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -51,6 +53,13 @@ public class SqlStorage implements Storage {
             ps.setString(2, r.getFullName());
             ps.execute();
         } catch (SQLException e) {
+            //throw new StorageException(e);
+            //System.out.println(e.getSQLState() + e.getClass() + e.getMessage());
+            if (e instanceof PSQLException) {
+                if (e.getSQLState().equals("23505")) {
+                    throw new ExistStorageException(null);
+                }
+            }
             throw new StorageException(e);
         }
     }
