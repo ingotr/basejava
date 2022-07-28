@@ -102,7 +102,7 @@ public class SqlStorage implements Storage {
              PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM resume")) {
             ps.execute();
             ResultSet rs = ps.executeQuery();
-            return rs.getInt(1);
+            return rs.next() ? rs.getInt(1) : 0;
         } catch (SQLException e) {
             throw new StorageException(e);
         }
