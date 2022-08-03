@@ -44,13 +44,16 @@ public class ResumeServlet extends HttpServlet {
             htmlHeader.append("<table>\n");
             htmlHeader.append("<tr>\n");
             htmlHeader.append("<th>Имя</th>\n");
+            htmlHeader.append("<th>Сайт</th>\n");
             htmlHeader.append("<th>email</th>\n");
+            htmlHeader.append("<th>github</th>\n");
             for (Resume resume : storage.getAllSorted()) {
                 htmlHeader.append("<tr>\n");
                 htmlHeader.append("<td><a href=\"resume?uuid=");
                 htmlHeader.append(resume.getUuid());
                 htmlHeader.append("\">");
-                htmlHeader.append("resume.getFullName() " + "</a></td>\n");
+                htmlHeader.append(resume.getFullName());
+                htmlHeader.append("</a></td>\n");
                 htmlHeader.append("<td>" + resume.getContact(ContactType.HOMEPAGE) + "</td>\n");
                 htmlHeader.append("<td>" + resume.getContact(ContactType.EMAIL) + "</td>\n");
                 htmlHeader.append("<td>" + resume.getContact(ContactType.GITHUB) + "</td>\n");
