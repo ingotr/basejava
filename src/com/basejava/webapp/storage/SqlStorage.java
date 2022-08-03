@@ -146,21 +146,36 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute("" +
-                        "   SELECT * FROM resume r\n" +
-                        "LEFT JOIN contact c ON r.uuid = c.resume_uuid\n" +
-                        "ORDER BY full_name, uuid", ps -> {
-            ResultSet rs = ps.executeQuery();
+        return sqlHelper.transactionalExecute(conn -> {
             Map<String, Resume> resumes = new LinkedHashMap<>();
-            while (rs.next()) {
-                String uuid = rs.getString("uuid");
-                Resume r = resumes.get(uuid);
-                if (r == null) {
-                    r = new Resume(uuid, rs.getString("full_name"));
-                    resumes.put(uuid, r);
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume ORDER BY full_name, uuid")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    String uuid = rs.getString("uuid");
+                    resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                 }
-                addContact(rs, r);
             }
+
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Resume r = resumes.get(rs.getString("resume_uuid"));
+                    addContact(rs, r);
+                }
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section")) {
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    Resume r = resumes.get(rs.getString("resume_uuid"));
+                    String content = rs.getString("content");
+                    if (content != null) {
+                        SectionType type = SectionType.valueOf(rs.getString("type"));
+                        r.addSection(type, JsonParser.read(content, Section.class));
+                    }
+                }
+            }
+
             return new ArrayList<>(resumes.values());
         });
     }
