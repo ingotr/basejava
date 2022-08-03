@@ -41,7 +41,7 @@ public class ResumeServlet extends HttpServlet {
             htmlHeader.append("<body>\n");
             htmlHeader.append("<h2>Список резюме</h2>\n");
             htmlHeader.append("<section>\n");
-            htmlHeader.append("<table>\n");
+            htmlHeader.append("<table border=1 cellpadding=5 width=auto>\n");
             htmlHeader.append("<tr>\n");
             htmlHeader.append("<th>Имя</th>\n");
             htmlHeader.append("<th>Сайт</th>\n");
