@@ -43,15 +43,6 @@ public class SqlStorage implements Storage {
             insertSections(r, conn);
             return null;
         });
-
-        sqlHelper.execute("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
-            ps.setString(1, r.getFullName());
-            ps.setString(2, r.getUuid());
-            if (ps.executeUpdate() == 0) {
-                throw new NotExistStorageException(r.getUuid());
-            }
-            return null;
-        });
     }
 
     @Override
@@ -94,11 +85,7 @@ public class SqlStorage implements Storage {
                 ps.setString(1, uuid);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
-                    String content = rs.getString("content");
-                    if (content != null) {
-                        SectionType type = SectionType.valueOf(rs.getString("type"));
-                        r.addSection(type, JsonParser.read(content, Section.class));
-                    }
+                    addSections(r, rs);
                 }
             }
             return r;
@@ -146,11 +133,7 @@ public class SqlStorage implements Storage {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Resume r = resumes.get(rs.getString("resume_uuid"));
-                    String content = rs.getString("content");
-                    if (content != null) {
-                        SectionType type = SectionType.valueOf(rs.getString("type"));
-                        r.addSection(type, JsonParser.read(content, Section.class));
-                    }
+                    addSections(r, rs);
                 }
             }
 
@@ -164,6 +147,14 @@ public class SqlStorage implements Storage {
             ResultSet rs = st.executeQuery();
             return rs.next() ? rs.getInt(1) : 0;
         });
+    }
+
+    private void addSections(Resume r, ResultSet rs) throws SQLException {
+        String content = rs.getString("content");
+        if (content != null) {
+            SectionType type = SectionType.valueOf(rs.getString("type"));
+            r.addSection(type, JsonParser.read(content, Section.class));
+        }
     }
 
     private void deleteSections(Resume r) {
