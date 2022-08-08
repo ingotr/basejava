@@ -12,6 +12,8 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
 
+    public static final Organization EMPTY = new Organization("", "");
+
     private String title;
     private String website;
     private List<Period> periods;
@@ -23,6 +25,11 @@ public class Organization implements Serializable {
         this.title = title;
         this.website = website == null ? "" : website;
         this.periods = new ArrayList<>();
+    }
+
+    public Organization(String website, List<Period> periods) {
+        this.website = website;
+        this.periods = periods;
     }
 
     public void addPeriod(LocalDate startDate, LocalDate endDate, String position, String duties) {

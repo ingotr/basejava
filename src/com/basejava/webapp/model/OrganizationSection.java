@@ -12,6 +12,10 @@ public class OrganizationSection extends Section implements Serializable {
         organizations = new ArrayList<>();
     }
 
+    public OrganizationSection(List<Organization> organizations) {
+        this.organizations = organizations;
+    }
+
     public Organization addOrganization(String title, String website) {
         Organization newOrganization = new Organization(title, website);
         organizations.add(newOrganization);
