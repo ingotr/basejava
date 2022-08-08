@@ -15,7 +15,7 @@ public class ResumeTestData {
         addMockContacts(mockResume);
         addMockTextSections(mockResume);
         addMockListSections(mockResume);
-//        addMockOrganizationsSections(mockResume);
+        addMockOrganizationsSections(mockResume);
         return mockResume;
     }
 
