@@ -1,5 +1,6 @@
 <%@ page import="com.basejava.webapp.model.TextSection" %>
 <%@ page import="com.basejava.webapp.model.ListSection" %>
+<%@ page import="com.basejava.webapp.model.OrganizationSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -20,7 +21,6 @@
                 <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
     <p>
-        <%--TODO добавить отображение секций с вложенными списками секций--%>
     <table>
         <c:forEach var="sectionEntry" items="${resume.sections}">
             <jsp:useBean id="sectionEntry"
@@ -30,7 +30,7 @@
             <c:set var="section" value="${sectionEntry.value}"/>
             <jsp:useBean id="section" type="com.basejava.webapp.model.Section"/>
             <tr>
-                <td colspan="2"><h2><a name="type.name">${type.getValue()}</a></h2></td>
+                <td colspan="2"><h2><a>${type.value}</a></h2></td>
             </tr>
             <c:choose>
                 <c:when test="${type=='OBJECTIVE'}">
@@ -57,6 +57,24 @@
                             </ul>
                         </td>
                     </tr>
+                </c:when>
+                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
+                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
+                        <tr>
+                            <td colspan="2">
+                                <h3><a href="${org.website}">${org.title}</a></h3>
+                            </td>
+                        </tr>
+                            <c:forEach var="period" items="${org.periods}">
+                                <jsp:useBean id="period" type="com.basejava.webapp.model.Period"/>
+                                <tr>
+                                    <td style="vertical-align: top">
+                                        <p>${period.startDate} - ${period.endDate}</p>
+                                    </td>
+                                    <td><b>${period.position}</b><br>${period.duties}</td>
+                                </tr>
+                            </c:forEach>
+                    </c:forEach>
                 </c:when>
             </c:choose>
         </c:forEach>
