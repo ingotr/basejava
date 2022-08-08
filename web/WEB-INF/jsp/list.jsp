@@ -19,7 +19,7 @@
             <jsp:useBean id="resume" type="com.basejava.webapp.model.Resume"/>
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td>${resume.getContact(ContactType.EMAIL)}</td>
+                <td><%=ContactType.EMAIL.toHtml(resume.getContact(ContactType.EMAIL))%></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=delete">delete</a></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=edit">edit</a></td>
             </tr>
