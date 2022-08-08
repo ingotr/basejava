@@ -30,7 +30,7 @@ public enum ContactType {
     }
 
     protected String toHtml0(String value) {
-        return value + ": " + value;
+        return getValue() + ": " + value;
     }
 
     public String toHtml(String value) {
