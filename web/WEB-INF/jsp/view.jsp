@@ -1,4 +1,5 @@
 <%@ page import="com.basejava.webapp.model.TextSection" %>
+<%@ page import="com.basejava.webapp.model.ListSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -19,8 +20,6 @@
                 <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
     <p>
-        <%--TODO добавить отображение текстовых секций--%>
-        <%--TODO добавить отображение секций с простыми списками секций--%>
         <%--TODO добавить отображение секций с вложенными списками секций--%>
     <table>
         <c:forEach var="sectionEntry" items="${resume.sections}">
@@ -45,6 +44,17 @@
                     <tr>
                         <td colspan="2">
                             <%=((TextSection) section).getContent()%>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENTS'}">
+                    <tr>
+                        <td colspan="2">
+                            <ul>
+                                <c:forEach var="item" items="<%=((ListSection) section).getList()%>">
+                                    <li>${item}</li>
+                                </c:forEach>
+                            </ul>
                         </td>
                     </tr>
                 </c:when>
