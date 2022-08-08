@@ -52,11 +52,7 @@
                     </label>
                 </c:when>
                 <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENTS'}">
-                    <label>
-                        <textarea name='${type}' cols=75 rows=5>
-                            <%=String.join("\n", ((ListSection) section).getList())%>
-                        </textarea>
-                    </label>
+                    <label><textarea name='${type}' cols=75 rows=5><%=String.join("\n", ((ListSection) section).getList())%></textarea></label>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>"
