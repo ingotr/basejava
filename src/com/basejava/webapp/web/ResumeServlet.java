@@ -1,8 +1,7 @@
 package com.basejava.webapp.web;
 
 import com.basejava.webapp.Config;
-import com.basejava.webapp.model.ContactType;
-import com.basejava.webapp.model.Resume;
+import com.basejava.webapp.model.*;
 import com.basejava.webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -35,6 +34,22 @@ public class ResumeServlet extends HttpServlet {
                 r.getContacts().remove(type);
             }
         }
+        for (SectionType type : SectionType.values()) {
+            String value = request.getParameter(type.name());
+            String[] values = request.getParameterValues(type.name());
+            switch (type) {
+                case OBJECTIVE:
+                case PERSONAL:
+                    r.addSection(type, new TextSection(value));
+                    break;
+                case ACHIEVEMENTS:
+                case QUALIFICATIONS:
+                    r.addSection(type, new ListSection(value.split("\\n")));
+                    break;
+                default:
+                    break;
+            }
+        }
         storage.update(r);
         response.sendRedirect("resume");
     }
@@ -55,6 +70,8 @@ public class ResumeServlet extends HttpServlet {
                 response.sendRedirect("resume");
                 return;
             case "view":
+                r = storage.get(uuid);
+                break;
             case "edit":
                 r = storage.get(uuid);
                 break;

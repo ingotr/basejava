@@ -12,6 +12,10 @@ public class ListSection extends Section implements Serializable {
         list = new ArrayList<>();
     }
 
+    public ListSection(String[] value) {
+        list = new ArrayList<>(List.of(value));
+    }
+
     public void addToList(String text) {
         list.add(text);
     }
