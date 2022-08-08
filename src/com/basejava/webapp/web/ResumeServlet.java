@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
@@ -37,17 +39,21 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            switch (type) {
-                case OBJECTIVE:
-                case PERSONAL:
-                    r.addSection(type, new TextSection(value));
-                    break;
-                case ACHIEVEMENTS:
-                case QUALIFICATIONS:
-                    r.addSection(type, new ListSection(value.split("\\n")));
-                    break;
-                default:
-                    break;
+            if (value != null && value.trim().length() != 0) {
+                r.getSections().remove(type);
+            } else {
+                switch (type) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        r.addSection(type, new TextSection(value));
+                        break;
+                    case ACHIEVEMENTS:
+                    case QUALIFICATIONS:
+                        r.addSection(type, new ListSection(value.split("\\n")));
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         storage.update(r);
@@ -74,6 +80,21 @@ public class ResumeServlet extends HttpServlet {
                 break;
             case "edit":
                 r = storage.get(uuid);
+                for (SectionType type : new SectionType[]{SectionType.EXPERIENCE, SectionType.EDUCATION}) {
+                    OrganizationSection section = (OrganizationSection) r.getSection(type);
+                    List<Organization> emptyFirstOrganizations = new ArrayList<>();
+                    emptyFirstOrganizations.add(Organization.EMPTY);
+                    if (section != null) {
+                        for (Organization org : section.getOrganizations()) {
+                            List<Period> emptyFirstPositions = new ArrayList<>();
+                            emptyFirstPositions.add(Period.EMPTY);
+                            emptyFirstPositions.addAll(org.getPeriods());
+                            emptyFirstOrganizations.add(new Organization(org.getWebsite(), emptyFirstPositions));
+                        }
+                    }
+                    r.addSection(type, new OrganizationSection(emptyFirstOrganizations));
+                    //r.addSection(type, new OrganizationSection().addAllOrganizations(emptyFirstOrganizations));
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
