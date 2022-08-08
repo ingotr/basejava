@@ -135,4 +135,8 @@ public class Resume implements Comparable<Resume>, Serializable {
         int compareName = fullName.compareTo(o.fullName);
         return compareName != 0  ? compareName : uuid.compareTo(o.uuid);
     }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 }
