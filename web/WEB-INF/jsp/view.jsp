@@ -33,14 +33,7 @@
                 <td colspan="2"><h2><a>${type.value}</a></h2></td>
             </tr>
             <c:choose>
-                <c:when test="${type=='OBJECTIVE'}">
-                    <tr>
-                        <td colspan="2">
-                            <%=((TextSection) section).getContent()%>
-                        </td>
-                    </tr>
-                </c:when>
-                <c:when test="${type=='PERSONAL'}">
+                <c:when test="${type=='OBJECTIVE' || type=='PERSONAL'}">
                     <tr>
                         <td colspan="2">
                             <%=((TextSection) section).getContent()%>
@@ -62,7 +55,14 @@
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
                         <tr>
                             <td colspan="2">
-                                <h3><a href="${org.website}">${org.title}</a></h3>
+                                <c:choose>
+                                    <c:when test="${empty org.website}">
+                                        <h3>${org.title}</h3>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <h3><a href="${org.website}">${org.title}</a></h3>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
                             <c:forEach var="period" items="${org.periods}">
@@ -79,6 +79,7 @@
             </c:choose>
         </c:forEach>
     </table>
+    <button onclick="window.history.back()">OK</button>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
