@@ -3,6 +3,8 @@ package com.basejava.webapp.web;
 import com.basejava.webapp.Config;
 import com.basejava.webapp.model.*;
 import com.basejava.webapp.storage.Storage;
+import com.basejava.webapp.util.DateUtil;
+import com.basejava.webapp.util.HtmlUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
@@ -30,16 +33,16 @@ public class ResumeServlet extends HttpServlet {
         r.setFullName(fullName);
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
-                r.addContact(type, value);
-            } else {
+            if (HtmlUtil.isEmpty(value)) {
                 r.getContacts().remove(type);
+            } else {
+                r.addContact(type, value);
             }
         }
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if (HtmlUtil.isEmpty(value) && values.length < 2) {
                 r.getSections().remove(type);
             } else {
                 switch (type) {
@@ -49,9 +52,30 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENTS:
                     case QUALIFICATIONS:
-                        r.addSection(type, new ListSection(value.split("\\n")));
+                        r.addSection(type, new ListSection(Objects.requireNonNull(value).split("\\n")));
                         break;
-                    default:
+                    case EDUCATION:
+                    case EXPERIENCE:
+                        List<Organization> orgs = new ArrayList<>();
+                        String[] urls = request.getParameterValues(type.name() + "url");
+                        for (int i = 0; i < values.length; i++) {
+                            String name = values[i];
+                            if (!HtmlUtil.isEmpty(name)) {
+                                List<Period> periods = new ArrayList<>();
+                                String pfx = type.name() + i;
+                                String[] startDates = request.getParameterValues(pfx + "startDate");
+                                String[] endDates = request.getParameterValues(pfx + "endDate");
+                                String[] positions = request.getParameterValues(pfx + "position");
+                                String[] duties = request.getParameterValues(pfx + "duties");
+                                for (int j = 0; j < positions.length; j++) {
+                                    if (!HtmlUtil.isEmpty(positions[j])) {
+                                        periods.add(new Period(DateUtil.parse(startDates[j]), DateUtil.parse(endDates[j]), positions[j], duties[j]));
+                                    }
+                                }
+                                orgs.add(new Organization(name, urls[i], periods));
+                            }
+                        }
+                        r.addSection(type, new OrganizationSection(orgs));
                         break;
                 }
             }
