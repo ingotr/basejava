@@ -20,7 +20,9 @@ public class ResumeTestData {
     }
 
     public static Resume getEmptyMockResume(String uuid, String name) {
-        return new Resume(uuid, name);
+        Resume r = new Resume(uuid, name);
+        addEmptySections(r);
+        return r;
     }
 
     private static void printMockResume(Resume test) {
@@ -34,6 +36,15 @@ public class ResumeTestData {
             System.out.println(entry.getKey().getValue() + ": \n" + entry.getValue());
             System.out.println();
         }
+    }
+
+    private static void addEmptySections(Resume test) {
+        test.addSection(SectionType.OBJECTIVE);
+        test.addSection(SectionType.PERSONAL);
+        test.addSection(SectionType.ACHIEVEMENTS);
+        test.addSection(SectionType.QUALIFICATIONS);
+        test.addSection(SectionType.EXPERIENCE);
+        test.addSection(SectionType.EDUCATION);
     }
 
     private static void addMockOrganizationsSections(Resume test) {
