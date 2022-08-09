@@ -86,14 +86,13 @@ public class ResumeServlet extends HttpServlet {
                     emptyFirstOrganizations.add(Organization.EMPTY);
                     if (section != null) {
                         for (Organization org : section.getOrganizations()) {
-                            List<Period> emptyFirstPositions = new ArrayList<>();
-                            emptyFirstPositions.add(Period.EMPTY);
-                            emptyFirstPositions.addAll(org.getPeriods());
-                            emptyFirstOrganizations.add(new Organization(org.getWebsite(), emptyFirstPositions));
+                            List<Period> emptyFirstPeriods = new ArrayList<>();
+                            emptyFirstPeriods.add(Period.EMPTY);
+                            emptyFirstPeriods.addAll(org.getPeriods());
+                            emptyFirstOrganizations.add(new Organization(org.getTitle(), org.getWebsite(), emptyFirstPeriods));
                         }
                     }
                     r.addSection(type, new OrganizationSection(emptyFirstOrganizations));
-                    //r.addSection(type, new OrganizationSection().addAllOrganizations(emptyFirstOrganizations));
                 }
                 break;
             default:
