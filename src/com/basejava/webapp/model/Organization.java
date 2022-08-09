@@ -6,13 +6,14 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
 
-    public static final Organization EMPTY = new Organization("", "");
+    public static final Organization EMPTY = new Organization("", "", Period.EMPTY);
 
     private String title;
     private String website;
@@ -30,6 +31,10 @@ public class Organization implements Serializable {
     public Organization(String website, List<Period> periods) {
         this.website = website;
         this.periods = periods;
+    }
+
+    public Organization(String title, String website, Period... periods) {
+        this(title, website, Arrays.asList(periods));
     }
 
     public Organization(String title, String website, List<Period> periods) {
