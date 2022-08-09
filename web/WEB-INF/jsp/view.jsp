@@ -1,6 +1,7 @@
 <%@ page import="com.basejava.webapp.model.TextSection" %>
 <%@ page import="com.basejava.webapp.model.ListSection" %>
 <%@ page import="com.basejava.webapp.model.OrganizationSection" %>
+<%@ page import="com.basejava.webapp.util.HtmlUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -69,7 +70,7 @@
                                 <jsp:useBean id="period" type="com.basejava.webapp.model.Period"/>
                                 <tr>
                                     <td style="vertical-align: top">
-                                        <p>${period.startDate} - ${period.endDate}</p>
+                                        <p><%=HtmlUtil.formatDates(period)%></p>
                                     </td>
                                     <td><b>${period.position}</b><br>${period.duties}</td>
                                 </tr>

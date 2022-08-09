@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+
+import static com.basejava.webapp.util.DateUtil.NOW;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Period implements Serializable {
@@ -25,6 +25,13 @@ public class Period implements Serializable {
     public Period() {
     }
 
+    public Period(LocalDate startDate, String position, String duties) {
+        this.startDate = startDate;
+        this.endDate = NOW;
+        this.position = position;
+        this.duties = duties;
+    }
+
     public Period(LocalDate startDate, LocalDate endDate, String position, String duties) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -32,12 +39,12 @@ public class Period implements Serializable {
         this.duties = duties == null ? "" : duties;
     }
 
-    public YearMonth getStartDate() {
-        return YearMonth.parse(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM")));
+    public LocalDate getStartDate() {
+        return this.startDate;
     }
 
-    public YearMonth getEndDate() {
-        return YearMonth.parse(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM")));
+    public LocalDate getEndDate() {
+        return this.endDate;
     }
 
     public String getPosition() {

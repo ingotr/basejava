@@ -32,6 +32,10 @@ public class Organization implements Serializable {
         this.periods = periods;
     }
 
+    public void addPeriod(LocalDate startDate, String position, String duties) {
+        periods.add(new Period(startDate, position, duties));
+    }
+
     public void addPeriod(LocalDate startDate, LocalDate endDate, String position, String duties) {
         periods.add(new Period(startDate, endDate, position, duties));
     }
