@@ -2,6 +2,7 @@
 <%@ page import="com.basejava.webapp.model.SectionType" %>
 <%@ page import="com.basejava.webapp.model.ListSection" %>
 <%@ page import="com.basejava.webapp.model.OrganizationSection" %>
+<%@ page import="com.basejava.webapp.util.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -52,7 +53,8 @@
                     </label>
                 </c:when>
                 <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENTS'}">
-                    <label><textarea name='${type}' cols=75 rows=5><%=String.join("\n", ((ListSection) section).getList())%></textarea></label>
+                    <label><textarea name='${type}' cols=75
+                                     rows=5><%=String.join("\n", ((ListSection) section).getList())%></textarea></label>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>"
@@ -81,7 +83,8 @@
                                     <dd>
                                         <label>
                                             <input type="text" name="${type}${counter.index}startDate" size=10
-                                                   value="<%=pos.getStartDate()%>" placeholder="MM/yyyy">
+                                                   value="<%=DateUtil.format(pos.getStartDate())%>"
+                                                   placeholder="MM/yyyy">
                                         </label>
                                     </dd>
                                 </dl>
@@ -90,7 +93,7 @@
                                     <dd>
                                         <label>
                                             <input type="text" name="${type}${counter.index}endDate" size=10
-                                                   value="<%=pos.getEndDate()%>" placeholder="MM/yyyy">
+                                                   value="<%=DateUtil.format(pos.getEndDate())%>" placeholder="MM/yyyy">
                                         </label>
                                 </dl>
                                 <dl>
@@ -106,7 +109,7 @@
                                     <dd>
                                         <label>
                                             <textarea name="${type}${counter.index}duties" rows=5
-                                                          cols=75>${pos.duties}</textarea>
+                                                      cols=75>${pos.duties}</textarea>
                                         </label>
                                     </dd>
                                 </dl>
