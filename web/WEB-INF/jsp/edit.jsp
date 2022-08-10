@@ -37,6 +37,8 @@
             </dl>
         </c:forEach>
         <hr>
+        <button type="submit">Сохранить</button>
+        <button onclick="window.history.back()">Отменить</button>
         <c:forEach var="type" items="<%=SectionType.values()%>">
             <c:set var="section" value="${resume.getSection(type)}"/>
             <jsp:useBean id="section" type="com.basejava.webapp.model.Section"/>
