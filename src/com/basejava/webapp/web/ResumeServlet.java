@@ -42,43 +42,43 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (HtmlUtil.isEmpty(value) && values.length < 2) {
-                r.getSections().remove(type);
-            } else {
-                switch (type) {
-                    case OBJECTIVE:
-                    case PERSONAL:
-                        r.addSection(type, new TextSection(value));
-                        break;
-                    case ACHIEVEMENTS:
-                    case QUALIFICATIONS:
-                        r.addSection(type, new ListSection(Objects.requireNonNull(value).split("\\n")));
-                        break;
-                    case EDUCATION:
-                    case EXPERIENCE:
-                        List<Organization> orgs = new ArrayList<>();
-                        String[] urls = request.getParameterValues(type.name() + "url");
-                        for (int i = 0; i < values.length; i++) {
-                            String name = values[i];
-                            if (!HtmlUtil.isEmpty(name)) {
-                                List<Period> periods = new ArrayList<>();
-                                String pfx = type.name() + i;
-                                String[] startDates = request.getParameterValues(pfx + "startDate");
-                                String[] endDates = request.getParameterValues(pfx + "endDate");
-                                String[] positions = request.getParameterValues(pfx + "position");
-                                String[] duties = request.getParameterValues(pfx + "duties");
-                                for (int j = 0; j < positions.length; j++) {
-                                    if (!HtmlUtil.isEmpty(positions[j])) {
-                                        periods.add(new Period(DateUtil.parse(startDates[j]), DateUtil.parse(endDates[j]), positions[j], duties[j]));
-                                    }
+//            if (HtmlUtil.isEmpty(value) && values.length < 2) {
+//                //r.getSections().remove(type);
+//            } else {
+            switch (type) {
+                case OBJECTIVE:
+                case PERSONAL:
+                    r.addSection(type, new TextSection(value));
+                    break;
+                case ACHIEVEMENTS:
+                case QUALIFICATIONS:
+                    r.addSection(type, new ListSection(Objects.requireNonNull(value).split("\\n")));
+                    break;
+                case EDUCATION:
+                case EXPERIENCE:
+                    List<Organization> orgs = new ArrayList<>();
+                    String[] urls = request.getParameterValues(type.name() + "url");
+                    for (int i = 0; i < values.length; i++) {
+                        String name = values[i];
+                        if (!HtmlUtil.isEmpty(name)) {
+                            List<Period> periods = new ArrayList<>();
+                            String pfx = type.name() + i;
+                            String[] startDates = request.getParameterValues(pfx + "startDate");
+                            String[] endDates = request.getParameterValues(pfx + "endDate");
+                            String[] positions = request.getParameterValues(pfx + "position");
+                            String[] duties = request.getParameterValues(pfx + "duties");
+                            for (int j = 0; j < positions.length; j++) {
+                                if (!HtmlUtil.isEmpty(positions[j])) {
+                                    periods.add(new Period(DateUtil.parse(startDates[j]), DateUtil.parse(endDates[j]), positions[j], duties[j]));
                                 }
-                                orgs.add(new Organization(name, urls[i], periods));
                             }
+                            orgs.add(new Organization(name, urls[i], periods));
                         }
-                        r.addSection(type, new OrganizationSection(orgs));
-                        break;
-                }
+                    }
+                    r.addSection(type, new OrganizationSection(orgs));
+                    break;
             }
+                //}
         }
         storage.update(r);
         response.sendRedirect("resume");
