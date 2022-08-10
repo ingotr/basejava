@@ -7,83 +7,94 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-    <link rel="stylesheet" href="css/theme/${theme}.css">
+    <link rel="stylesheet" href="css/theme/light.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/view-resume-styles.css">>
+    <link rel="stylesheet" href="css/view-resume-styles.css">
     <jsp:useBean id="resume" type="com.basejava.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
-<section>
-    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit">Edit</a></h2>
-    <p>
-        <c:forEach var="contactEntry" items="${resume.contacts}">
-            <jsp:useBean id="contactEntry"
-                         type="java.util.Map.Entry<com.basejava.webapp.model.ContactType, java.lang.String>"/>
-                <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
-        </c:forEach>
-    <p>
-    <table>
+
+<div class="scrollable-panel">
+    <div class="form-wrapper">
+        <div class="full-name">${resume.fullName}
+            <a class="no-underline-anchor" href="resume?uuid=${resume.uuid}&action=edit&theme=light">
+                <img src="img/light/edit.svg" alt="">
+            </a>
+
+        </div>
+        <div class="contacts">
+            <c:forEach var="contactEntry" items="${resume.contacts}">
+                <jsp:useBean id="contactEntry"
+                             type="java.util.Map.Entry<com.basejava.webapp.model.ContactType, java.lang.String>"/>
+
+                <div><%=contactEntry.getKey().toHtml(contactEntry.getValue())%>
+                </div>
+            </c:forEach>
+        </div>
+
+        <div class="spacer"></div>
+
         <c:forEach var="sectionEntry" items="${resume.sections}">
             <jsp:useBean id="sectionEntry"
-                         type="java.util.Map.Entry<com.basejava.webapp.model.SectionType,
-                         com.basejava.webapp.model.Section>"/>
+                         type="java.util.Map.Entry<com.basejava.webapp.model.SectionType, com.basejava.webapp.model.Section>"/>
             <c:set var="type" value="${sectionEntry.key}"/>
             <c:set var="section" value="${sectionEntry.value}"/>
             <jsp:useBean id="section" type="com.basejava.webapp.model.Section"/>
-            <tr>
-                <td colspan="2"><h2><a>${type.value}</a></h2></td>
-            </tr>
+            <div class="section">${type.value}</div>
             <c:choose>
-                <c:when test="${type=='OBJECTIVE' || type=='PERSONAL'}">
-                    <tr>
-                        <td colspan="2">
-                            <%=((TextSection) section).getContent()%>
-                        </td>
-                    </tr>
+                <c:when test="${type=='OBJECTIVE'}">
+                    <div class="position"><%=((TextSection) section).getContent()%>
+                    </div>
+                </c:when>
+                <c:when test="${type=='PERSONAL'}">
+                    <div class="qualities"><%=((TextSection) section).getContent()%>
+                    </div>
                 </c:when>
                 <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENTS'}">
-                    <tr>
-                        <td colspan="2">
-                            <ul>
-                                <c:forEach var="item" items="<%=((ListSection) section).getList()%>">
-                                    <li>${item}</li>
-                                </c:forEach>
-                            </ul>
-                        </td>
-                    </tr>
+                    <ul class="list">
+                        <c:forEach var="item" items="<%=((ListSection) section).getList()%>">
+                            <li>${item}</li>
+                        </c:forEach>
+                    </ul>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
-                        <tr>
-                            <td colspan="2">
-                                <c:choose>
-                                    <c:when test="${empty org.website}">
-                                        <h3>${org.title}</h3>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <h3><a href="${org.website}">${org.title}</a></h3>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
+                        <div class="section-wrapper">
+                            <c:choose>
+                                <c:when test="${empty org.website}">
+                                    <div class="job-name">${org.title}</div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="job-name"><a class="contact-link"
+                                                             href="${org.website}">${org.title}</a></div>
+                                </c:otherwise>
+                            </c:choose>
                             <c:forEach var="period" items="${org.periods}">
                                 <jsp:useBean id="period" type="com.basejava.webapp.model.Period"/>
-                                <tr>
-                                    <td style="vertical-align: top">
-                                        <p><%=HtmlUtil.formatDates(period)%></p>
-                                    </td>
-                                    <td><b>${period.position}</b><br>${period.duties}</td>
-                                </tr>
+                                <div class="period-position">
+                                    <div class="period"><%=HtmlUtil.formatDates(period)%>
+                                    </div>
+                                    <div class="position">${period.position}</div>
+                                </div>
+                                <c:choose>
+                                    <c:when test="${empty period.duties}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="description">${period.duties}</div>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:forEach>
+                        </div>
                     </c:forEach>
                 </c:when>
             </c:choose>
         </c:forEach>
-    </table>
-    <button onclick="window.history.back()">OK</button>
-</section>
+
+        <div class="footer-spacer"></div>
+    </div>
+</div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
