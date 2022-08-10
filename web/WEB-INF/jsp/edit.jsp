@@ -25,7 +25,11 @@
         <div class="form-wrapper">
             <div class="section">ФИО</div>
             <label>
-                <input class="field" type="text" name="fullName" size=55 placeholder="ФИО" value="${resume.fullName}" required>
+                <input class="field" type="text" name="fullName"
+                       size=55 placeholder="Имя Фамилия" value="${resume.fullName}"
+                       minlength="3"
+                       required pattern="^([a-zA-Zа-яА-Я]+\s)*[a-zA-Zа-яА-Я]+$"
+                       title="Полное имя должно содержать минимум 3 символа: имя. Без пробелов перед">
             </label>
 
             <div class="section">Контакты</div>
