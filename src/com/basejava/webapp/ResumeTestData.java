@@ -19,12 +19,6 @@ public class ResumeTestData {
         return mockResume;
     }
 
-    public static Resume getEmptyMockResume(String uuid, String name) {
-        Resume r = new Resume(uuid, name);
-        addEmptySections(r);
-        return r;
-    }
-
     private static void printMockResume(Resume test) {
         System.out.println(test.getFullName());
         for (Map.Entry<ContactType, String> entry : test.getContacts().entrySet()) {
