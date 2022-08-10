@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class TextSection extends Section implements Serializable {
+
+    public static final TextSection EMPTY = new TextSection("");
     private String content;
 
     public TextSection() {
