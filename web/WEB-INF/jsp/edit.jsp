@@ -21,7 +21,7 @@
         <dl>
             <dd>
                 <label>
-                    <input type="text" name="fullName" size=50 value="${resume.fullName}">
+                    <input type="text" name="fullName" size=50 value="${resume.fullName}" required>
                 </label>
             </dd>
         </dl>

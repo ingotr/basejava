@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class ListSection extends Section implements Serializable {
 
-    public static final ListSection EMPTY = new ListSection(new String[]{""});
+    public static final ListSection EMPTY = new ListSection();
     private final List<String> list;
 
     public ListSection() {
