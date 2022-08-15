@@ -19,7 +19,7 @@ public class DateUtil {
     }
 
     public static LocalDate parse(String date) {
-        if (HtmlUtil.isEmpty(date) || "Сейчас".equals(date)) return NOW;
+        if (HtmlUtil.isEmpty(date) || "Сейчас".equals(date) || date.equals(NOW.format(DATE_FORMATTER))) return NOW;
         YearMonth yearMonth = YearMonth.parse(date, DATE_FORMATTER);
         return LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
     }
