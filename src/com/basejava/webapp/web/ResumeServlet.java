@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
@@ -59,7 +59,13 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENTS:
                     case QUALIFICATIONS:
-                        r.addSection(type, new ListSection(Objects.requireNonNull(value).split("\\n")));
+                        String[] inputText = value.split("\\n");
+                        List<String> sectionItems = new ArrayList<>();
+                        for (String line : inputText) {
+                            sectionItems.add(line.replaceAll("\r", ""));
+                        }
+                        sectionItems.removeAll(Arrays.asList("", null));
+                        r.addSection(type, new ListSection(sectionItems));
                         break;
                     case EDUCATION:
                     case EXPERIENCE:

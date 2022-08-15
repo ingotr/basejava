@@ -2,7 +2,6 @@ package com.basejava.webapp.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +16,10 @@ public class ListSection extends Section implements Serializable {
     
     public ListSection(String[] value) {
         list = new ArrayList<>(List.of(value));
+    }
+
+    public ListSection(List<String> list) {
+        this.list = list;
     }
 
     public void addToList(String text) {
