@@ -22,7 +22,7 @@
 <%--        </form>--%>
 <%--    </div>--%>
 <%--</div>--%>
-<jsp:include page="fragments/header.jsp"/>
+<jsp:include page="./fragments/header.jsp"/>
 <div class="scrollable-panel">
     <div class="table-wrapper">
         <div class="add-resume">
